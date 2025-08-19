@@ -43,7 +43,7 @@ foreach(sheepcoro_test_source ${SHEEPCORO_TEST_SOURCES})
         COMMENT "build ${sheepcoro_test_command} tests..."
     )
 
-    add_custom_target(test-${sheepcoro_test_command}
+    add_custom_target(check-${sheepcoro_test_command}
         COMMAND $<TARGET_FILE:${sheepcoro_test_name}>
         DEPENDS ${sheepcoro_test_name}
         COMMENT "Running ${sheepcoro_test_command} test..."

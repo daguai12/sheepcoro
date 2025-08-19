@@ -42,7 +42,10 @@ set(SRC_INCLUDE_DIR
     "${PROJECT_BINARY_DIR}/include"
     "${PROJECT_SOURCE_DIR}/config")
 set(THIRD_PARTY_INCLUDE_DIR
-    "${PROJECT_SOURCE_DIR}/third_party/googletest/googletest/include")
+    # "${PROJECT_SOURCE_DIR}/third_party/spdlog/include"
+    "${PROJECT_SOURCE_DIR}/third_party/googletest/googletest/include"
+    "${PROJECT_SOURCE_DIR}/third_party/atomic_queue/include")
+    # "${PROJECT_SOURCE_DIR}/third_party/benchmark/include")
 
 
 option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
