@@ -27,6 +27,7 @@ constexpr const char* kLogFileName = "/temp/logs/coro.log";
 
 constexpr int64_t kFlushDura = 3; // seconds
 
+// 设置缓存大小，64位操作系统缓存大小为64byte
 constexpr size_t kCacheLineSize = 64;
 
 #define ENABLE_MEMORY_ALLOC
@@ -40,8 +41,14 @@ constexpr unsigned int kFixFdArraySize = 8;
 
 constexpr unsigned int kSqthreadIdle = 2000; // millseconds
 
+// 协程id变量
 using ctx_id = uint32_t;
 
+
+// 引擎任务队列长度，至少大于4096
+// 若向已满任务队列提交任务:
+// 1. 若在工作线程中：直接执行该任务
+// 2. 若不在工作线程中：报告错误并忽略任务
 constexpr size_t kQueCap = 16384;
 
 constexpr size_t kMaxRecursiveDepth = 4096;
