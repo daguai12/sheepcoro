@@ -19,6 +19,7 @@ enum io_type
     nop,
     tcp_accept,
     tcp_connect,
+    tcp_close,
     tcp_read,
     tcp_write,
     stdin,
