@@ -12,7 +12,7 @@
 // #endif // ENABLE_SQPOOL
 
 #include "config.h"
-// #include "coro/attribute.hpp"
+#include "coro/attribute.hpp"
 // #include "coro/log.hpp"
 #include "coro/marked_buffer.hpp"
 #include "coro/utils.hpp"
@@ -268,7 +268,7 @@ public:
         m_fds.return_back(item);
     }
 
-    auto update_register_fixed_fds(int index) noexcept -> void
+    auto update_register_fixed_fds([[CORO_MAYBE_UNUSED]] int index) noexcept -> void
     {
         if constexpr (config::kEnableFixfd)
         {

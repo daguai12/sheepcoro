@@ -57,8 +57,10 @@ auto context::run(stop_token token) noexcept -> void
 {
     while (!token.stop_requested())
     {
+        // 执行协程计算任务
         process_work();
 
+        // 判断是否还有计算任务和IO任务
         if (empty_wait_task()) {
             if (!m_engine.ready()) {
                 m_stop_cb();
@@ -67,6 +69,7 @@ auto context::run(stop_token token) noexcept -> void
             }
         }
 
+        // 执行IO协程任务
         poll_work();
     }
 }
