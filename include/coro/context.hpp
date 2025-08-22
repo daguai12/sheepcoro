@@ -64,13 +64,6 @@ public:
     */
     auto set_stop_cb(stop_cb cb) noexcept -> void;
 
-    inline auto submit(task<void>&& task) noexcept -> void
-    {
-        auto handle = task.handle();
-        task.detach();
-        this->submit_task(handle);
-    }
-
     /**
      * @brief 将task的生命周期交给engine去管理
      * @param task&&

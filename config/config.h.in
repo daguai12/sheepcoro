@@ -33,8 +33,10 @@ constexpr size_t kCacheLineSize = 64;
 
 #define ENABLE_MEMORY_ALLOC
 
+// SQE和CQE的队列大小
 constexpr unsigned int kEntryLength = 10240;
 
+// 是否启用kEnableFixfd
 constexpr bool kEnableFixfd = false;
 
 constexpr unsigned int kFixFdArraySize = 8;
@@ -62,8 +64,12 @@ constexpr size_t kMaxRecursiveDepth = 4096;
 
 inline bool kLongRunMode = true;
 
+// 默认端口号
 constexpr int kDefaultPort = 8000;
+
+// backlog队列大小
 constexpr int kBacklog     = 5;
+
 constexpr int kMaxTestTaskNum = 100000;
 };     // namespace coro::config
 #endif // CONFIG_H
