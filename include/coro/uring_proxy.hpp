@@ -7,13 +7,13 @@
 #include <liburing.h>
 #include <sys/eventfd.h>
 #include <vector>
-// #ifdef ENABLE_SQPOOL
-//     #include <time.h>
-// #endif // ENABLE_SQPOOL
+#ifdef ENABLE_SQPOOL
+    #include <time.h>
+#endif // ENABLE_SQPOOL
 
 #include "config.h"
 #include "coro/attribute.hpp"
-// #include "coro/log.hpp"
+#include "coro/log.hpp"
 #include "coro/marked_buffer.hpp"
 #include "coro/utils.hpp"
 
@@ -36,7 +36,7 @@ public:
         m_efd = eventfd(0, 0);
         if (m_efd < 0)
         {
-            // log::error("uring_proxy init event_fd failed");
+            log::error("uring_proxy init event_fd failed");
             std::exit(1);
         }
     }
@@ -56,14 +56,14 @@ public:
         auto res = io_uring_queue_init_params(entry_length, &m_uring, &m_para);
         if (res != 0)
         {
-            // log::error("uring_proxy init uring failed");
+            log::error("uring_proxy init uring failed");
             std::exit(1);
         }
 
         res = io_uring_register_eventfd(&m_uring, m_efd);
         if (res != 0)
         {
-            // log::error("uring_proxy bind event_fd to uring failed");
+            log::error("uring_proxy bind event_fd to uring failed");
             std::exit(1);
         }
 
@@ -78,7 +78,7 @@ public:
                 auto fd = ::coro::utils::get_null_fd();
                 if (fd <= 0)
                 {
-                    // log::error("open null fd failed");
+                    log::error("open null fd failed");
                     std::exit(1);
                 }
                 m_null_fds.push_back(fd);
@@ -89,7 +89,7 @@ public:
             res = io_uring_register_files(&m_uring, m_fds.data, config::kFixFdArraySize);
             if (res != 0)
             {
-                // log::error("uring_proxy register files failed");
+                log::error("uring_proxy register files failed");
                 std::exit(1);
             }
         }
@@ -278,7 +278,7 @@ public:
             auto res = io_uring_register_files_update(&m_uring, 0, m_fds.data, config::kFixFdArraySize);
             if (res != config::kFixFdArraySize)
             {
-                // log::error("update register files failed, result: {}", res);
+                log::error("update register files failed, result: {}", res);
                 std::exit(1);
             }
         }

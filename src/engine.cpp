@@ -26,7 +26,7 @@ auto engine::deinit()  noexcept -> void
     m_max_recursive_depth = 0;
     if (!m_task_queue.was_empty()) 
     {
-        // log::warn("task queue isn't empty when engine deinit");
+        log::warn("task queue isn't empty when engine deinit");
     }
     mpmc_queue<coroutine_handle<>> task_queue;
     m_task_queue.swap(task_queue);
@@ -50,7 +50,7 @@ auto engine::submit_task(coroutine_handle<> handle) noexcept -> void
     {
         if (m_max_recursive_depth >= config::kMaxRecursiveDepth) 
         {
-            // log::error("the recursive depth exceed limit, so the task will be discard");
+            log::error("the recursive depth exceed limit, so the task will be discard");
             return;
         }
         ++m_max_recursive_depth;
@@ -59,7 +59,7 @@ auto engine::submit_task(coroutine_handle<> handle) noexcept -> void
     }
     else
     {
-        // log::error("push task out of capacity before work thread run!");
+        log::error("push task out of capacity before work thread run!");
     }
 }
 
