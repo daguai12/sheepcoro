@@ -48,4 +48,16 @@ foreach(sheepcoro_test_source ${SHEEPCORO_TEST_SOURCES})
         DEPENDS ${sheepcoro_test_name}
         COMMENT "Running ${sheepcoro_test_command} test..."
     )
+
+    add_custom_target(memtest-${sheepcoro_test_command}
+        COMMAND bash ${PROJECT_SOURCE_DIR}/scripts/memcheck.sh
+                ${PROJECT_SOURCE_DIR}/temp/valgrind_output.xml
+                $<TARGET_FILE:${sheepcoro_test_name}>
+                ${PROJECT_SOURCE_DIR}/temp
+        COMMAND ${python_command} ${PROJECT_SOURCE_DIR}/scripts/analysis_valgrind.py
+                ${PROJECT_SOURCE_DIR}/temp/valgrind_output.xml
+        $<TARGET_FILE:${sheepcoro_test_name}>
+        DEPENDS ${sheepcoro_test_name}
+        COMMENT "Running ${sheepcoro_test_command} memtests..."
+    )
 endforeach()

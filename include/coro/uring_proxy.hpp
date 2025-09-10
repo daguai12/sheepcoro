@@ -153,7 +153,7 @@ public:
      *
      * @param cqe
      */
-    inline auto seen_cqe_entry(urcptr cqe) noexcept -> void //TODO:
+    inline auto seen_cqe_entry(urcptr cqe) noexcept -> void CORO_INLINE
     {
         io_uring_cqe_seen(&m_uring, cqe);
     }
@@ -163,7 +163,7 @@ public:
      *
      * @return ursptr
      */
-    inline auto get_free_sqe() noexcept -> ursptr //TODO:
+    inline auto get_free_sqe() noexcept -> ursptr CORO_INLINE
     {
         return io_uring_get_sqe(&m_uring);
     }
@@ -173,7 +173,7 @@ public:
      *
      * @return int
      */
-    inline auto submit() noexcept -> int //TODO:
+    inline auto submit() noexcept -> int CORO_INLINE
     {
         return io_uring_submit(&m_uring);
     }
@@ -215,14 +215,14 @@ public:
      *
      * @param cqes
      * @param num
-     * @return int //TODO:
+     * @return int CORO_INLINE
      */
-    inline auto peek_batch_cqe(urcptr* cqes, unsigned int num) noexcept -> int //TODO:
+    inline auto peek_batch_cqe(urcptr* cqes, unsigned int num) noexcept -> int CORO_INLINE
     {
         return io_uring_peek_batch_cqe(&m_uring, cqes, num);
     }
 
-    inline auto write_eventfd(uint64_t num) noexcept -> void //TODO:
+    inline auto write_eventfd(uint64_t num) noexcept -> void CORO_INLINE
     {
         auto ret = eventfd_write(m_efd, num);
         assert(ret != -1 && "eventfd write error");
@@ -233,7 +233,7 @@ public:
      *
      * @param num
      */
-    inline auto cq_advance(unsigned int num) noexcept -> void //TODO:
+    inline auto cq_advance(unsigned int num) noexcept -> void CORO_INLINE
     {
         io_uring_cq_advance(&m_uring, num);
     }
@@ -243,7 +243,7 @@ public:
      *
      * @return uring_fds_item, if fds is empty, uring_fds_item.index will be less than 0
      */
-    auto get_fixed_fd() noexcept -> uring_fds_item //TODO:
+    auto get_fixed_fd() noexcept -> uring_fds_item CORO_INLINE
     {
         if constexpr (!config::kEnableFixfd)
         {
@@ -257,7 +257,7 @@ public:
      *
      * @param item
      */
-    auto back_fixed_fd(uring_fds_item item) noexcept -> void //TODO
+    auto back_fixed_fd(uring_fds_item item) noexcept -> void CORO_INLINE
     {
         if (!item.valid())
         {

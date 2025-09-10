@@ -17,7 +17,7 @@ class engine;
 
 struct CORO_ALIGN local_info
 {
-    // 存储协程句柄
+    // 存储当前协程的上下文
     context* ctx{nullptr}; 
     // 存储执行引擎engine
     engine*  egn{nullptr};
@@ -42,8 +42,8 @@ inline auto init_meta_info() noexcept -> void
     ginfo.engine_id  = 0;
 }
 
-// 判断当前线程线程是否工作线程
-inline auto is_in_working_state() noexcept -> bool
+// 判断当前线程线程是否正在工作
+[[nodiscard]] inline auto is_in_working_state() noexcept -> bool
 {
     return linfo.ctx != nullptr;
 }
