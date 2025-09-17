@@ -37,7 +37,7 @@ constexpr size_t kCacheLineSize = 64;
 constexpr unsigned int kEntryLength = 10240;
 
 // 是否启用kEnableFixfd
-constexpr bool kEnableFixfd = false;
+constexpr bool kEnableFixfd = true;
 
 constexpr unsigned int kFixFdArraySize = 8;
 

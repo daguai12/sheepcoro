@@ -35,8 +35,10 @@
         ->Arg(para3)
 
 /**
- * @brief a simple thread pool, must submit task before start
+ * @brief 简单的线程池实现
  *
+ * 本线程池要求在调用 start() 方法之前先提交任务，
+ * 否则线程池启动后将没有任务可执行。
  */
 class thread_pool
 {

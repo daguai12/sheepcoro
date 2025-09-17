@@ -268,18 +268,54 @@ public:
         m_fds.return_back(item);
     }
 
-    auto update_register_fixed_fds([[CORO_MAYBE_UNUSED]] int index) noexcept -> void
+    // auto update_register_fixed_fds([[CORO_MAYBE_UNUSED]] int index) noexcept -> void
+    // {
+    //     if constexpr (config::kEnableFixfd)
+    //     {
+    //         // TODO: Why local update is incorrect?
+    //         // io_uring_register_files_update(&m_uring, index, m_fds.data, 1)
+    //
+    //         auto res = io_uring_register_files_update(&m_uring, 0, m_fds.data, config::kFixFdArraySize);
+    //         if (res != config::kFixFdArraySize)
+    //         {
+    //             log::error("update register files failed, result: {}", res);
+    //             std::exit(1);
+    //         }
+    //     }
+    // }
+
+    auto update_register_fixed_fds(int index = -1) noexcept -> void
     {
         if constexpr (config::kEnableFixfd)
         {
-            // TODO: Why local update is incorrect?
-            // io_uring_register_files_update(&m_uring, index, m_fds.data, 1)
+            int res = 0;
 
-            auto res = io_uring_register_files_update(&m_uring, 0, m_fds.data, config::kFixFdArraySize);
-            if (res != config::kFixFdArraySize)
+            if (index >= 0)
             {
-                log::error("update register files failed, result: {}", res);
-                std::exit(1);
+                // === 单个更新 ===
+                res = io_uring_register_files_update(&m_uring,
+                                                    index,
+                                                    &m_fds.data[index],
+                                                    1);
+                if (res != 1)
+                {
+                    log::error("update single fixed_fd failed, index: {}, result: {}",
+                            index, res);
+                    std::exit(1);
+                }
+            }
+            else
+            {
+                // === 全量更新 ===
+                res = io_uring_register_files_update(&m_uring,
+                                                    0,
+                                                    m_fds.data,
+                                                    config::kFixFdArraySize);
+                if (res != config::kFixFdArraySize)
+                {
+                    log::error("update all fixed_fds failed, result: {}", res);
+                    std::exit(1);
+                }
             }
         }
     }

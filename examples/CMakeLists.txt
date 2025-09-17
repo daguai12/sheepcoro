@@ -1,3 +1,6 @@
+set(BIN_DIR "${PROJECT_SOURCE_DIR}/bin")
+file(MAKE_DIRECTORY ${BIN_DIR})
+
 file(GLOB SOURCES "*.cpp")
 
 set(debug_name coro_debug)
@@ -19,6 +22,10 @@ foreach(SOURCE ${SOURCES})
     if(ENABLE_COMPILE_OPTIMIZE)
       target_compile_options(${TARNAME} PUBLIC -O3)
     endif()
+
+    set_target_properties(${TARNAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}
+    )
     # endif()
 endforeach()
 
