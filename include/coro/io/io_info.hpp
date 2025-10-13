@@ -14,6 +14,7 @@ struct io_info;
 using std::coroutine_handle;
 using cb_type = std::function<void(io_info*, int)>;
 
+// 定义I/O操作的类型
 enum io_type
 {
     nop,
@@ -27,6 +28,7 @@ enum io_type
     none
 };
 
+// 定义I/O操作的信息
 struct io_info
 {
     coroutine_handle<> handle; // IO绑定的协程句柄

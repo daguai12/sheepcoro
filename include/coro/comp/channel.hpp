@@ -34,13 +34,6 @@ public:
         m_consumer_cv.notify_all();
     }
 
-    // TODO: Implement sync_close.
-    // task<> sync_close() noexcept {}
-
-    // TODO: There are too many duplicated codes in send and recv of each channel, use CRTP to fix it.
-    // TODO: Add for loop fetch value
-    // eg: for(auto it:channel.recv)
-
 protected:
     inline auto complete_closed_atomic() noexcept -> bool
     {
@@ -66,7 +59,6 @@ protected:
 };
 }; // namespace detail
 
-// TODO: Add batch send and batch recv for channel
 template<concepts::conventional_type T, size_t capacity = 0>
 class channel : public detail::channel_base
 {

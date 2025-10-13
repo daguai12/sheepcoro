@@ -272,8 +272,6 @@ public:
     // {
     //     if constexpr (config::kEnableFixfd)
     //     {
-    //         // TODO: Why local update is incorrect?
-    //         // io_uring_register_files_update(&m_uring, index, m_fds.data, 1)
     //
     //         auto res = io_uring_register_files_update(&m_uring, 0, m_fds.data, config::kFixFdArraySize);
     //         if (res != config::kFixFdArraySize)
