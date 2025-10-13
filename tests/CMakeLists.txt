@@ -61,3 +61,31 @@ foreach(sheepcoro_test_source ${SHEEPCORO_TEST_SOURCES})
         COMMENT "Running ${sheepcoro_test_command} memtests..."
     )
 endforeach()
+
+add_executable(echo1 EXCLUDE_FROM_ALL net_tcp_test.cpp)
+add_dependencies(build-tests echo1)
+add_dependencies(build-check echo1)
+target_link_libraries(echo1 ${PROJECT_NAME})
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  target_compile_options(echo1 PRIVATE "-g")
+endif()
+if(ENABLE_COMPILE_OPTIMIZE)
+  target_compile_options(echo1 PUBLIC -O3)
+endif()
+set_target_properties(${tinycoro_test_name}
+  PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
+)
+
+add_custom_target(build-echo1
+  COMMAND echo "build echo test..."
+  DEPENDS echo1
+  COMMENT "build echo tests..."
+)
+
+add_custom_target(test-echo1
+  COMMAND ${python_command} ${PROJECT_SOURCE_DIR}/tests/echo.py $<TARGET_FILE:echo1> ${PROJECT_SOURCE_DIR}/third_party/rust_echo_bench/target/release/echo_bench
+  DEPENDS echo1
+)
+
+add_dependencies(test-echo1 build-benchtools)

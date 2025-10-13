@@ -22,10 +22,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
-# include(GNUInstallDirs)
-# include(GenerateExportHeader)
-# include(CMakeDependentOption)
-# include(cmake/env.cmake)
+include(GNUInstallDirs)
+include(CMakeDependentOption)
 
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
@@ -51,7 +49,7 @@ set(THIRD_PARTY_INCLUDE_DIR
 option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
 option(ENABLE_DEBUG_MODE "Enable debug mode" OFF)
 option(ENABLE_BUILD_SHARED_LIBS "Enable build shared libs" OFF)
-# cmake_dependent_option(ENABLE_COMPILE_OPTIMIZE "Enable compile options -O3" ON "NOT ENABLE_DEBUG_MODE" OFF)
+cmake_dependent_option(ENABLE_COMPILE_OPTIMIZE "Enable compile options -O3" ON "NOT ENABLE_DEBUG_MODE" OFF)
 
 set(
     BUILD_SHARED_LIBS
@@ -134,7 +132,6 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${URING_PATH} pthread)
 
-# generate_export_header(${PROJECT_NAME} BASE_NAME CORO EXPORT_FILE_NAME include/coro/export.hpp)
 
 if(ENABLE_UNIT_TESTS)
     enable_testing()
@@ -145,4 +142,28 @@ add_subdirectory(benchtests)
 add_subdirectory(examples)
 add_subdirectory(benchmark)
 
-# configure_file(sheepcoro.pc.in sheepcoro.pc @ONLY)
+
+# TODO: release
+# if(ENABLE_UNIT_TESTS)
+#   enable_testing()
+#   add_subdirectory(tests)
+#   add_subdirectory(benchtests)
+# endif()
+# if(TINYCORO_BUILD_EXAMPLES)
+#     add_subdirectory(examples)
+# endif()
+# if(TINYCORO_BUILD_BENCHMARKS)
+#     add_subdirectory(benchmark)
+# endif()
+
+# TODO:install sheepcorolib
+# install(TARGET ${PROJECT_NAME}
+#     EXPORT ${PROJECT_NAME}Targets
+#     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#     RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
+# )
+
+#TODO: install include
+# install(DIRECTORY include/coro DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/coro DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
